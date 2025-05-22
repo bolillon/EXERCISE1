@@ -11,10 +11,12 @@ app.get("/temperatura", (req, res) => {
   res.json({ valor: `${10} "C`, timestamp: new Date().toISOString() });
 });
 
-app.get("/estesotroendpoint", (req, res) => {
-  console.log("Endpoint /estesotroendpoint fue llamado");
+app.get("/velocidad", (req, res) => {
+  res.json({ nombre: "Ariel", Apellidos: "Sanchez Hernandez" });
 });
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en puerto ${port}`);
 });
+
+//stage commit push
