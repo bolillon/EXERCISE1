@@ -15,6 +15,10 @@ app.get("/velocidad", (req, res) => {
   res.json({ nombre: "Ariel", Apellidos: "Sanchez Hernandez" });
 });
 
+app.get("/uteelede", (req, res) => {
+  res.json({ Universidad: "UTLD" });
+});
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en puerto ${port}`);
 });
