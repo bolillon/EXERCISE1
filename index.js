@@ -19,8 +19,9 @@ app.post("/create-table", async (req, res) => {
       await pool.query(`
         CREATE TABLE ${tableName} (
           id SERIAL PRIMARY KEY,
-          nombre text NOT NULL,
-          matricula TEXT NOT NULL,
+          nombre VARCHAR(100) NOT NULL,
+          matricula VARCHAR(50) NOT NULL,
+          value TEXT,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
       `);
@@ -36,18 +37,17 @@ app.post("/create-table", async (req, res) => {
 });
 
 app.post("/savedata", async (req, res) => {
-  const { nombre, matricula } = req.body;
+  const { value, nombre, matricula } = req.body;
+  console.log(value, nombre, matricula);
 
-  if (!nombre || !matricula) {
-    return res
-      .status(400)
-      .json({ error: "Los campos 'nombre' y 'matricula' son requeridos" });
+  if (!value || !nombre || !matricula) {
+    return res.status(400).json({ error: "El campo 'value' es requerido" });
   }
 
   try {
     const result = await pool.query(
-      "INSERT INTO data (nombre, matricula) VALUES ($1, $2) RETURNING *", // ⚠ Solo insertar 'value'
-      [nombre, matricula]
+      "INSERT INTO data (value, nombre, matricula) VALUES ($1, $2, $3) RETURNING *",
+      [value, nombre, matricula]
     );
 
     return res.status(201).json({
@@ -75,7 +75,7 @@ app.get("/getdata", async (req, res) => {
   }
 });
 
-app.post("/delete-data-table", async (_req, res) => {
+app.post("/delete-data-table", async (req, res) => {
   try {
     const tableName = "data";
 
