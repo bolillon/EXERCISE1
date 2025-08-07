@@ -37,6 +37,7 @@ app.post("/create-table", async (_req, res) => {
 
 app.post("/turn-on", async (req, res) => {
   const { user, enrollId } = req.body;
+  const deviceStatus = {};
   deviceStatus.isOn = true;
 
   try {
