@@ -1,23 +1,26 @@
 import pg from "pg";
 const { Pool } = pg;
+import dotenv from "dotenv";
+
+dotenv.config(); // Carga las variables de entorno desde .env
 
 const pool = new Pool({
-  connectionString:
-    "postgresql://iot5_user:m9jfNI8EyfPaG1UPwpUWjV169zcZ8BKo@dpg-d29rmrjipnbc73b8j0n0-a.oregon-postgres.render.com/iot5",
+  connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // Necesario para Render
   },
 });
 
 export default pool;
 
+// Función para probar la conexión
 async function testConnection() {
   try {
     const client = await pool.connect();
-    console.log("Connected to the database successfully");
+    console.log("Conexión a la base de datos exitosa");
     client.release();
   } catch (error) {
-    console.error("Error connecting to the database:", error);
+    console.error("Error al conectar a la base de datos:", error.message);
   }
 }
 
